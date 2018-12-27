@@ -2,7 +2,7 @@ const express = require('express');
 const hbs     = require('hbs');
 const fs      = require('fs')
 
-const portNumber = 3000;
+const portNumber = process.env.PORT || 3000;
 const maintenance = false;
 
 var app = express();
@@ -13,7 +13,7 @@ app.set('view engine', 'hbs');
 app.use((req, res, next) => {
     var now = new Date().toString();
     var log = `${now}: ${req.method} ${req.url}`;
-    fs.appendFile('server.log', log + '\n', (err) => {
+    fs.appendFileSync('server.log', log + '\n', (err) => {
         console.log('Unable to append to server: ', err);
     });
     console.log(log);
