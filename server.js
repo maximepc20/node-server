@@ -66,6 +66,13 @@ app.get('/about', (req, res) => {
     });
 })
 
+app.get('/folio', (req, res) => {
+    res.render('about.hbs', {
+        pageTitle : 'Folio page',
+        pageMessage: 'My Portfolio'
+    });
+})
+
 app.get('/bad', (req, res) => {
     res.send({
         errorMessage: 'Oups! There\'s no page here'
