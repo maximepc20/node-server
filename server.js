@@ -66,8 +66,8 @@ app.get('/json', (req, res) => {
 
 app.get('/about', (req, res) => {
     res.render('about.hbs', {
-        pageTitle : 'About page',
-        pageMessage: 'About this website'
+        pageTitle : 'À propos',
+        pageMessage: 'Exemple à propos'
     });
 })
 

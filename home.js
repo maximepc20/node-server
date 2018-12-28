@@ -24,7 +24,7 @@ var handling = (app) => {
         // res.send('<h1>Hello Express</h1>');
         res.render('home.hbs', {
             pageTitle : 'Bienvenue',
-            pageMessage: 'Ce site est fait avec NODE.JS'
+            pageMessage: 'Cet app est faite avec NODE.JS'
         });
     });
 
