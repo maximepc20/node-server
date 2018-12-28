@@ -2,7 +2,7 @@ const express       = require('express');
 const hbs           = require('hbs');
 const fs            = require('fs');
 const request       = require('request');
-const bodyParser    = require('body-Parser');
+const bodyparser    = require('body-parser');
 
 const home          = require('./home');
 const utils          = require('./utils');
@@ -14,8 +14,8 @@ const maintenance = false;
 
 var app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
 
 hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
