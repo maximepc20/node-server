@@ -1,22 +1,28 @@
-const express = require('express');
-const hbs     = require('hbs');
-const fs      = require('fs')
+const express       = require('express');
+const hbs           = require('hbs');
+const fs            = require('fs');
+const request       = require('request');
+const bodyParser    = require('body-Parser');
+
+const home          = require('./home');
+const utils          = require('./utils');
+
+
 
 const portNumber = process.env.PORT || 3000;
 const maintenance = false;
 
 var app = express();
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
 app.use((req, res, next) => {
-    var now = new Date().toString();
-    var log = `${now}: ${req.method} ${req.url}`;
-    fs.appendFileSync('server.log', log + '\n', (err) => {
-        console.log('Unable to append to server: ', err);
-    });
-    console.log(log);
+    var message = `${req.method} ${req.url}`;
+    utils.ecrireLog(message);
     next();
 });
 
@@ -40,13 +46,9 @@ hbs.registerHelper('screamIt', (text) => {
     return text.toUpperCase();
 });
 
-app.get('/', (req, res) => {
-    // res.send('<h1>Hello Express</h1>');
-    res.render('home.hbs', {
-        pageTitle : 'Bienvenue',
-        pageMessage: 'Ce site est fait avec NODE.JS'
-    });
-});
+
+home.handling(app);
+
 
 app.get('/json', (req, res) => {
     // res.send('<h1>Hello Express</h1>');

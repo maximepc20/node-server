@@ -2,12 +2,58 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <title>{{pageTitle}}</title>
+        <script>
+            $(document).ready(function(){
+
+                var user;
+                $("#ok").click(function()
+                {
+                    user=$("#user").val();
+                    $.post("/", {user: user}, function (data) {
+                        var result = JSON.parse(data);
+
+                        if(result.code === 200)
+                        {
+                            alert("Connexion réussi");
+                        }
+                        else if(result.code === 202) {
+                            alert("Connexion refusée. Mauvais nom d'utilisateur et/ou mot de passe");
+                        }
+                    })
+                    .done(function() {
+                        // alert(".DONE");
+                    });
+
+                });
+
+                $('#formid').on('keyup keypress', function(e) {
+                  var keyCode = e.keyCode || e.which;
+                  if (keyCode === 13) {
+                    e.preventDefault();
+                    $("#ok").trigger('click');
+                    return false;
+                  }
+                });
+
+            });
+        </script>
     </head>
 
     <body>
         {{> header}}
 
-        {{> footer}} 
+        <p>
+            Ceci est un exemple de POST géré avec NODE.JS
+            <form class="" id="formid" action="/" method="post">
+                <input type="text" id="user" value="xam">
+
+                <input type="button" id="ok" value="OK">
+            </form>
+
+        </p>
+
+        {{> footer}}
     </body>
 </html>
