@@ -7,7 +7,7 @@ const bodyparser    = require('body-parser');
 const home          = require('./home');
 const utils          = require('./utils');
 
-
+var logFileData = "";
 
 const portNumber = process.env.PORT || 3000;
 const maintenance = false;
@@ -23,6 +23,9 @@ app.set('view engine', 'hbs');
 app.use((req, res, next) => {
     var message = `${req.method} ${req.url}`;
     utils.ecrireLog(message);
+    fs.readFile("server.log", "utf8", function(error, data) {
+        logFileData = data.toString();
+    });
     next();
 });
 
@@ -72,6 +75,13 @@ app.get('/folio', (req, res) => {
     res.render('about.hbs', {
         pageTitle : 'Folio page',
         pageMessage: 'My Portfolio'
+    });
+})
+
+app.get('/logs', (req, res) => {
+    res.render('logs.hbs', {
+        pageTitle : 'Logs du serveur',
+        pageMessage: logFileData
     });
 })
 
