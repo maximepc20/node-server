@@ -43,8 +43,8 @@ hbs.registerHelper('screamIt', (text) => {
 app.get('/', (req, res) => {
     // res.send('<h1>Hello Express</h1>');
     res.render('home.hbs', {
-        pageTitle : 'Home page',
-        pageMessage: 'Welcome to my website'
+        pageTitle : 'Bienvenue',
+        pageMessage: 'Ce site est fait avec NODE.JS'
     });
 });
 
