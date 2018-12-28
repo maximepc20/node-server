@@ -10,16 +10,17 @@
                 var user;
                 $("#ok").click(function()
                 {
-                    user=$("#user").val();
-                    $.post("/", {user: user}, function (data) {
+                    $("#reponseMeteo").html("<p>Calcul de la température pour " + $("#address").val() + " en cours</p>")
+                    address=$("#address").val();
+                    $.post("/", {address: address}, function (data) {
                         var result = JSON.parse(data);
 
                         if(result.code === 200)
                         {
-                            alert("Connexion réussi");
+                            $("#reponseMeteo").html("<p>Il fait présentement " + result.temperature + " à " + $("#address").val() + " avec une température ressentie de " + result.apptemperature + "</p>")
                         }
                         else if(result.code === 202) {
-                            alert("Connexion refusée. Mauvais nom d'utilisateur et/ou mot de passe");
+                            alert(result.reason);
                         }
                     })
                     .done(function() {
@@ -45,12 +46,14 @@
         {{> header}}
 
         <p>
-            Ceci est un exemple de POST géré avec NODE.JS
+            Ceci est un exemple d'app retournant la météo de l'adresse indiquée dans le champ. Fait avec les API Google Geocoding et DarkSky.
             <form class="" id="formid" action="/" method="post">
-                <input type="text" id="user" value="xam">
+                <input type="text" id="address" value="Montréal">
 
                 <input type="button" id="ok" value="OK">
             </form>
+
+            <div id="reponseMeteo"></div>
 
         </p>
 

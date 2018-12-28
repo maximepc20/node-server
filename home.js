@@ -1,22 +1,21 @@
 const utils          = require('./utils');
+const meteo          = require('./app-meteo');
 
 var handling = (app) => {
 
     app.post('/', (req, res) => {
-        var user = req.body.user;
-        var code = 400;
-        if(user === 'xam')
-        {
-            code = 200;
-        }
-        else {
-            code = 202;
-        }
-        var result = { code: code }
-        var resultString = JSON.stringify(result);
-        res.send(resultString);
+        var address = req.body.address;
+        var code = 200;
+        var resultString = "";
 
-        utils.ecrireLog(`POST: ${user} : ${resultString}`);
+        meteo.get('c', address, (resultatMeteo) => {
+            //console.log("resMeteo: ", resultatMeteo.temperature);
+            var result = { code: code, temperature: resultatMeteo.temperature, apptemperature: resultatMeteo.appTemperature, reason: "" }
+            resultString = JSON.stringify(result);
+            res.send(resultString);
+        });
+
+        utils.ecrireLog(`POST: ${address} : ${resultString}`);
 
     });
 
